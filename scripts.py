@@ -8,14 +8,18 @@ from django.core.exceptions import MultipleObjectsReturned
 from django.core.exceptions import ObjectDoesNotExist
 
 
+commendations = ['Хвалю!', 'Молодец!', 'Отлично!', 'Великолепно!', 'Прекрасно!', 'Очень хороший ответ!', 'Талантливо!',
+                 'Уже существенно лучше!', 'Потрясающе!', 'Замечательно!', 'Так держать!', 'Здорово!']
+
+
 def get_schoolkid(schoolkid_name):
     try:
         schoolkid = Schoolkid.objects.get(full_name__contains=schoolkid_name)
         return schoolkid
-    except MultipleObjectsReturned:
-        print('Не найдено. Уточните ФИО ученика.')
-    except ObjectDoesNotExist:
-        print('Не найдено. Уточните ФИО ученика.')
+    except Schoolkid.MultipleObjectsReturned:
+        raise MultipleObjectsReturned('Найдено несколько учеников, уточните ФИО')
+    except Schoolkid.DoesNotExist:
+        raise ObjectDoesNotExist('Не найдено. Уточните ФИО ученика.')
 
 
 def fix_marks(schoolkid_name):
@@ -43,7 +47,3 @@ def create_commendation(schoolkid_name, subject):
             subject=lesson.subject,
             teacher=lesson.teacher
         )
-
-
-commendations = ['Хвалю!', 'Молодец!', 'Отлично!', 'Великолепно!', 'Прекрасно!', 'Очень хороший ответ!', 'Талантливо!',
-                 'Уже существенно лучше!', 'Потрясающе!', 'Замечательно!', 'Так держать!', 'Здорово!']
