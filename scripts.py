@@ -8,7 +8,7 @@ from django.core.exceptions import MultipleObjectsReturned
 from django.core.exceptions import ObjectDoesNotExist
 
 
-commendations = ['Хвалю!', 'Молодец!', 'Отлично!', 'Великолепно!', 'Прекрасно!', 'Очень хороший ответ!', 'Талантливо!',
+COMMENDATIONS = ['Хвалю!', 'Молодец!', 'Отлично!', 'Великолепно!', 'Прекрасно!', 'Очень хороший ответ!', 'Талантливо!',
                  'Уже существенно лучше!', 'Потрясающе!', 'Замечательно!', 'Так держать!', 'Здорово!']
 
 
@@ -39,11 +39,10 @@ def create_commendation(schoolkid_name, subject):
                                    group_letter=schoolkid.group_letter).order_by('?').first()
     if not lesson:
         return 'Уточните название предмета.'
-    else:
-        Commendation.objects.create(
-            text=choice(commendations),
-            created=lesson.date,
-            schoolkid=schoolkid,
-            subject=lesson.subject,
-            teacher=lesson.teacher
+    Commendation.objects.create(
+        text=choice(commendations),
+        created=lesson.date,
+        schoolkid=schoolkid,
+        subject=lesson.subject,
+        teacher=lesson.teacher
         )
